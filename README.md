@@ -1,0 +1,2 @@
+# Hyperion.bypass
+"pornography" - goguardian
