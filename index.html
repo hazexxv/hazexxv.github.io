@@ -330,7 +330,8 @@
 
         document.getElementById('admin-login').addEventListener('click', () => {
             const key = document.getElementById('admin-key').value;
-            if (key === 'nodiddy') {
+            const encodedKey = 'bm9kaWRkeQ==';
+            if (key === atob(encodedKey)) {
                 isAdmin = true;
                 document.getElementById('admin-login').classList.add('hidden');
                 document.getElementById('admin-logout').classList.remove('hidden');
