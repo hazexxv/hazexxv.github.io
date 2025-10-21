@@ -1,0 +1,11 @@
+:root{--bg-default:#011a05;--fg-default:#fff;--accent-default:#003300;--accent-dark-default:#002200;--accent-light-default:#99ff99;--rain1-default:#99ff99;--rain2-default:#66cc66}
+.theme-default{--bg:var(--bg-default);--fg:var(--fg-default);--accent:var(--accent-default);--accent-dark:var(--accent-dark-default);--accent-light:var(--accent-light-default);--subtle-rain-1:var(--rain1-default);--subtle-rain-2:var(--rain2-default)}
+.theme-light{--bg:#f5f5f5;--fg:#222;--accent:#88cc88;--accent-dark:#669966;--accent-light:#ccffcc;--subtle-rain-1:#88cc88;--subtle-rain-2:#66aa66}
+.theme-black{--bg:#000;--fg:#fff;--accent:#222;--accent-dark:#000;--accent-light:#444;--subtle-rain-1:#444;--subtle-rain-2:#666}
+.theme-midnight{--bg:#001a33;--fg:#e0e6f1;--accent:#335577;--accent-dark:#223344;--accent-light:#4477aa;--subtle-rain-1:#335577;--subtle-rain-2:#4477aa}
+.theme-ember{--bg:#2b0f0c;--fg:#f2e3d5;--accent:#b33a1e;--accent-dark:#8b2f17;--accent-light:#e0573c;--subtle-rain-1:#b33a1e;--subtle-rain-2:#e0573c}
+.theme-lunar{--bg:#2e2e3a;--fg:#dcdce4;--accent:#7f7fa3;--accent-dark:#5e5e6c;--accent-light:#a0a0b3;--subtle-rain-1:#7f7fa3;--subtle-rain-2:#a0a0b3}
+.theme-sunset{--bg:#3b1e16;--fg:#ffe5d0;--accent:#d9764e;--accent-dark:#b3593b;--accent-light:#f09e7a;--subtle-rain-1:#d9764e;--subtle-rain-2:#f09e7a}
+.theme-crimson{--bg:#220706;--fg:#f5d7d0;--accent:#8a0707;--accent-dark:#660505;--accent-light:#bb1616;--subtle-rain-1:#8a0707;--subtle-rain-2:#bb1616}
+.theme-royalty{--bg:#1e0f2c;--fg:#f0e6f8;--accent:#5e2a7e;--accent-dark:#4a1f65;--accent-light:#7a39a8;--subtle-rain-1:#5e2a7e;--subtle-rain-2:#7a39a8}
+.theme-ocean{--bg:#002b3a;--fg:#d0eaf1;--accent:#0e7490;--accent-dark:#0b586e;--accent-light:#339fbf;--subtle-rain-1:#0e7490;--subtle-rain-2:#339fbf}
