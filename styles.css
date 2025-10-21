@@ -64,6 +64,6 @@ section#home{display:block;text-align:center}
 .subtle-rain{background:linear-gradient(90deg,var(--subtle-rain-1),var(--subtle-rain-2));-webkit-background-clip:text;color:transparent;opacity:.95}
 .list-wrap,.list,#content,#settings-right,.settings-panel,.panel-card{overflow:auto;-webkit-overflow-scrolling:touch}
 #embed-frame,#app-ui-frame{overflow:auto}
-@media(max-width:1200px){:root{--card-size:100px}#sidebar{left:8px}}
-@media(max-width:900px){:root{--card-size:90px}#sidebar{width:56px}#sidebar:hover{width:160px}}
-@media(max-width:600px){:root{--card-size:80px}#content{padding:18px}#sidebar{display:flex;left:8px;top:8px;width:56px}}
+@media (max-width:1200px){:root{--card-size:100px}#sidebar{left:8px}}
+@media (max-width:900px){:root{--card-size:90px}#sidebar{width:56px}#sidebar:hover{width:160px}}
+@media (max-width:600px){:root{--card-size:80px}#content{padding:18px}#sidebar{display:flex;left:8px;top:8px;width:56px}}
