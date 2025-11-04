@@ -40,9 +40,7 @@
   var currentPage = 1;
   var paginationContainer = null;
 
-  function escapeHtml(s){
-    return (s||'').toString().replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
-  }
+  function escapeHtml(s){ return (s||'').toString().replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
 
   function applyThemeGlobal(url){
     if(!url) return;
@@ -154,18 +152,39 @@
     }catch(e){ return null; }
   }
 
-  function cloakRawFile(rawUrl, setRedirect){
-    return fetch(rawUrl, { cache: 'no-store' }).then(function(res){
+  function embedRawAsGame(rawUrl, setRedirect){
+    fetch(rawUrl, { cache: 'no-store' }).then(function(res){
       if(!res.ok) throw new Error('fetch failed');
       return res.text();
     }).then(function(txt){
-      var content = '<!doctype html><html><head><meta charset="utf-8"><title>Document</title></head><body style="margin:0;background:#fff;color:#000"><pre style="white-space:pre-wrap;word-break:break-word;padding:12px;font-family:monospace;">' + C.escapeHtml(txt) + '</pre></body></html>';
-      var newWin = openAboutBlankAndWrite(content, true);
-      if(!newWin){ alert('Popup blocked. Allow popups to cloak.'); return; }
-      try{ setFaviconForDoc(newWin.document, C.GOOGLE_FAVICON_RAW); newWin.document.title = 'Google'; }catch(e){}
-      try{ persistFavTitle('Google', C.GOOGLE_FAVICON_RAW); setFaviconForDoc(document, C.GOOGLE_FAVICON_RAW); document.title = 'Google'; }catch(e){}
+      var safe = txt || '';
+      var isHtml = /^\s*<!doctype html|^\s*<html/i.test(safe);
+      var wrapper = '<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"></head><body style="margin:0;background:#000;color:#fff;display:flex;flex-direction:column;height:100vh;">';
+      wrapper += '<div style="padding:8px;background:rgba(0,0,0,0.6);color:#ddd;font-family:system-ui,ui-sans-serif;">';
+      wrapper += '<span style="font-weight:700;margin-right:12px;">Useless UB</span>';
+      wrapper += '<a id="openRaw" href="' + rawUrl + '" target="_blank" style="color:#9ad7ff;text-decoration:none;margin-right:12px;">Open raw</a>';
+      wrapper += '<button id="toggleView" style="background:transparent;border:1px solid rgba(255,255,255,0.06);color:#fff;padding:4px 8px;border-radius:6px;cursor:pointer;">Toggle source</button>';
+      wrapper += '</div>';
+      if(isHtml){
+        wrapper += '<iframe id="gameFrame" sandbox="allow-scripts allow-forms allow-same-origin" style="flex:1;border:0;width:100%;height:100%;"></iframe>';
+        wrapper += '<script>var f=document.getElementById("gameFrame");f.srcdoc=' + JSON.stringify(safe) + ';document.getElementById("toggleView").addEventListener("click",function(){ var pre=document.getElementById("sr"); if(pre){ pre.remove(); } else { var p=document.createElement("pre"); p.id="sr"; p.textContent=' + JSON.stringify(safe) + '; p.style.cssText="color:#111;background:#fff;padding:12px;overflow:auto;flex:1;margin:0"; document.body.appendChild(p); } });<\/script>';
+      } else {
+        var escaped = escapeHtml(safe);
+        wrapper += '<div style="flex:1;display:flex;flex-direction:row;">';
+        wrapper += '<iframe id="gameFrame" sandbox="allow-scripts allow-forms" style="flex:1;border:0;height:100%;"></iframe>';
+        wrapper += '<pre id="sr" style="width:420px;color:#111;background:#fff;padding:12px;overflow:auto;margin:0;">' + escaped + '</pre>';
+        wrapper += '<script>var f=document.getElementById("gameFrame"); var srcdoc="<!doctype html><html><head><meta charset=\\\"utf-8\\\"><meta name=\\\"viewport\\\" content=\\\"width=device-width,initial-scale=1\\\"></head><body>"+' + JSON.stringify(escaped) + '+ "</body></html>"; f.srcdoc = srcdoc; document.getElementById("toggleView").addEventListener("click",function(){ var pre=document.getElementById("sr"); if(pre.style.display==='none'){ pre.style.display='block'; } else { pre.style.display='none'; } });<\/script>';
+        wrapper += '</div>';
+      }
+      wrapper += '</body></html>';
+      var newWin = openAboutBlankAndWrite(wrapper, true);
+      if(!newWin){ alert('Popup blocked. Allow popups to embed the game.'); return; }
+      try{ setFaviconForDoc(newWin.document, C.GOOGLE_FAVICON_RAW); newWin.document.title = 'Game'; }catch(e){}
+      try{ persistFavTitle('Game', C.GOOGLE_FAVICON_RAW); setFaviconForDoc(document, C.GOOGLE_FAVICON_RAW); document.title = 'Game'; }catch(e){}
       if(setRedirect) setTimeout(function(){ window.location.href = 'https://www.google.com'; }, 160);
-    }).catch(function(e){ alert('Cloak failed: ' + (e && e.message ? e.message : e)); });
+    }).catch(function(err){
+      alert('Embed failed: ' + (err && err.message ? err.message : err));
+    });
   }
 
   if(uselessCloakBtn) uselessCloakBtn.addEventListener('click', function(){
@@ -180,7 +199,7 @@
   function fetchRepoXmlList(apiUrl, rawBase){
     if(!apiUrl || !rawBase) return Promise.resolve([]);
     return fetch(apiUrl, { cache: 'no-store' }).then(function(r){
-      if(!r.ok) throw new Error('api-fail');
+      if(!r.ok) throw new Error('fetch failed');
       return r.json();
     }).then(function(json){
       if(!json.tree) return [];
@@ -231,7 +250,7 @@
       var f = document.createElement('div'); f.className = 'card-footer';
       var b = document.createElement('button'); b.className = 'btn'; b.type = 'button'; b.textContent = 'Cloak';
       if(it.raw) b.setAttribute('data-raw', it.raw);
-      b.addEventListener('click', function(){ cloakRawFile(it.raw, false); });
+      b.addEventListener('click', function(){ embedRawAsGame(it.raw, false); });
       f.appendChild(b);
       card.appendChild(t); card.appendChild(s); card.appendChild(f);
       frag.appendChild(card);
@@ -305,7 +324,7 @@
       var f = document.createElement('div'); f.className = 'card-footer';
       var b = document.createElement('button'); b.className = 'btn'; b.type = 'button'; b.textContent = 'Cloak';
       if(it.raw) b.setAttribute('data-raw', it.raw);
-      b.addEventListener('click', function(){ cloakRawFile(it.raw, false); });
+      b.addEventListener('click', function(){ embedRawAsGame(it.raw, false); });
       f.appendChild(b);
       card.appendChild(t); card.appendChild(s); card.appendChild(f);
       frag.appendChild(card);
