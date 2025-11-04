@@ -1,0 +1,146 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Useless UB</title>
+  <link id="page-favicon" rel="icon" href="">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div id="app" class="app-root">
+    <header class="topbar">
+      <div class="brand">Useless UB</div>
+      <div class="version">v0.8</div>
+    </header>
+
+    <main class="main">
+      <section id="home" class="panel" data-panel="home" aria-label="Home">
+        <div class="home-inner">
+          <h1 class="home-title">Useless UB</h1>
+          <div class="home-sub">your #4 destination for unbl0ck1ng</div>
+
+          <div class="usage">
+            <div id="usageBar" class="usage-bar"><div id="usageFill" class="usage-fill"></div></div>
+            <div id="usageText" class="usage-text">Computer usage • --%</div>
+          </div>
+
+          <div class="home-controls">
+            <input id="globalSearch" class="search" placeholder="Search games & apps" aria-label="Search games and apps">
+            <div class="home-actions">
+              <button id="goGames" class="btn">Games</button>
+              <button id="goApps" class="btn">Apps</button>
+              <button id="goSettings" class="btn">Settings</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="games" class="panel hidden" data-panel="games" aria-label="Games">
+        <div class="section-header">
+          <div class="section-title">Games</div>
+          <div class="section-meta"><span id="gamesCount">0</span> items</div>
+        </div>
+        <div id="gamesGrid" class="grid" role="list" aria-live="polite"></div>
+      </section>
+
+      <section id="apps" class="panel hidden" data-panel="apps" aria-label="Apps">
+        <div class="section-header">
+          <div class="section-title">Apps</div>
+          <div class="section-meta"><span id="appsCount">0</span> items</div>
+        </div>
+        <div id="appsGrid" class="grid" role="list" aria-live="polite"></div>
+      </section>
+
+      <section id="settings" class="panel hidden" data-panel="settings" aria-label="Settings">
+        <div class="settings-shell">
+          <nav class="settings-sidebar" role="navigation" aria-label="Settings sidebar">
+            <button data-tab="about" class="sidebar-btn active">About Useless UB</button>
+            <button data-tab="customize" class="sidebar-btn">Customize</button>
+            <button data-tab="cloaking" class="sidebar-btn">Cloaking</button>
+            <div class="sidebar-foot">v0.8</div>
+          </nav>
+
+          <div class="settings-main" id="settingsMain" role="region">
+            <div id="aboutPanel" class="settings-panel">
+              <div class="big-card">
+                <h2>About Useless UB</h2>
+                <div class="muted">your #4 destination for unbl0ck1ng</div>
+                <div style="margin-top:12px;font-weight:700">Wasd/Christian - Founder + Developer</div>
+                <div style="font-weight:600" class="muted">Hutchinsan - Gam3s</div>
+                <div style="font-weight:600" class="muted">Blobbyboi - App5</div>
+              </div>
+            </div>
+
+            <div id="customizePanel" class="settings-panel hidden">
+              <div class="big-card">
+                <div class="row-between">
+                  <div>
+                    <div style="font-weight:800">Choose theme</div>
+                    <div class="muted">Click to open the theme picker</div>
+                  </div>
+                  <button id="openThemePicker" class="btn">Open</button>
+                </div>
+              </div>
+            </div>
+
+            <div id="cloakingPanel" class="settings-panel hidden">
+              <div class="big-card">
+                <h3>Cloaking</h3>
+                <div class="muted" style="margin-top:8px">Use "Useless Cloak" to open a new about:blank with the fetched XML content. Only the Useless Cloak button redirects the original tab to google.com.</div>
+                <div style="height:12px"></div>
+                <div class="row-gap">
+                  <button id="uselessCloakBtn" class="btn primary">Useless Cloak</button>
+                </div>
+                <div class="muted" style="margin-top:8px">After cloaking the original tab becomes google.com and both tabs will have the Google favicon</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="taskbar" role="tablist" aria-label="Navigation">
+      <button data-target="home" class="tab-btn active">Home</button>
+      <button data-target="games" class="tab-btn">Games</button>
+      <button data-target="apps" class="tab-btn">Apps</button>
+      <button data-target="movies" class="tab-btn">Movies</button>
+      <button data-target="settings" class="tab-btn">Settings</button>
+    </footer>
+  </div>
+
+  <div id="themeModal" class="modal-backdrop hidden" role="dialog" aria-modal="true" aria-hidden="true">
+    <div class="modal">
+      <h3>Pick a theme</h3>
+      <div class="theme-list">
+        <div class="theme-item" data-name="Sunset" data-url="https://raw.githubusercontent.com/hazexxv/covers/main/backgrounds/sunset_theme.jpg">
+          <div class="swatch" style="background-image:url('https://raw.githubusercontent.com/hazexxv/covers/main/backgrounds/sunset_theme.jpg')"></div>
+          <div><strong>Sunset</strong><div class="muted">Warm orange</div></div>
+        </div>
+
+        <div class="theme-item" data-name="Seraph" data-url="https://raw.githubusercontent.com/hazexxv/covers/main/backgrounds/seraph_theme.png">
+          <div class="swatch" style="background-image:url('https://raw.githubusercontent.com/hazexxv/covers/main/backgrounds/seraph_theme.png')"></div>
+          <div><strong>Seraph</strong><div class="muted">Bright and soft</div></div>
+        </div>
+
+        <div class="theme-item" data-name="Night" data-url="https://raw.githubusercontent.com/hazexxv/covers/main/backgrounds/nighttime_theme.png">
+          <div class="swatch" style="background-image:url('https://raw.githubusercontent.com/hazexxv/covers/main/backgrounds/nighttime_theme.png')"></div>
+          <div><strong>Night</strong><div class="muted">Dark blues</div></div>
+        </div>
+
+        <div class="theme-item" data-name="VaporWave" data-url="https://raw.githubusercontent.com/hazexxv/covers/main/backgrounds/vaporwave_theme.jpg">
+          <div class="swatch" style="background-image:url('https://raw.githubusercontent.com/hazexxv/covers/main/backgrounds/vaporwave_theme.jpg')"></div>
+          <div><strong>VaporWave</strong><div class="muted">Pastel synth</div></div>
+        </div>
+      </div>
+
+      <div class="modal-actions">
+        <button id="closeThemeModal" class="btn">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="config.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
